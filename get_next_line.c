@@ -6,7 +6,7 @@
 /*   By: ecastane <ecastane@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 10:25:17 by ecastane          #+#    #+#             */
-/*   Updated: 2023/09/29 17:31:11 by ecastane         ###   ########.fr       */
+/*   Updated: 2023/10/06 23:46:25 by ecastane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,12 @@ char	*ft_read(int fd, char *save)
 		if (read_rtn == -1)
 		{
 			free(tmp);
-			free(save);
+			if (save)
+				free(save);
 			return (NULL);
 		}
+		else if (read_rtn == 0)
+			break ;
 		tmp[read_rtn] = '\0';
 		save = ft_strjoin(save, tmp);
 	}
@@ -40,15 +43,19 @@ char	*ft_read(int fd, char *save)
 char	*ft_get_line(char *save)
 {
 	size_t		i;
+	char		*s;
 
 	i = 0;
 	if (!save)
-		return (0);
+		return (NULL);
 	while (save[i] && save[i] != '\n')
 		i++;
 	if (save[i] == '\n')
 		i++;
-	return (ft_substr(save, 0, i));
+	s = ft_substr(save, 0, i);
+	if (!s)
+		return (NULL);
+	return (s);
 }
 
 char	*ft_save(char *save)
@@ -57,18 +64,22 @@ char	*ft_save(char *save)
 	char		*s;
 
 	if (!save)
-		return (NULL);
-	i = 0;
-	while (save[i] && save[i] != '\n')
-		i++;
-	if (!save[i])
 	{
 		free(save);
 		return (NULL);
 	}
-	i++;
-	s = ft_substr(save, i, BUFFER_SIZE);
+	i = 0;
+	while (save[i] && save[i] != '\n')
+		i++;
+	if (!save[i] || !save[i + 1])
+	{
+		free(save);
+		return (NULL);
+	}
+	s = ft_substr(save, i + 1, BUFFER_SIZE);
 	free(save);
+	if (!s)
+		return (NULL);
 	return (s);
 }
 
@@ -80,6 +91,11 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	save = ft_read(fd, save);
+	if (!save)
+	{
+		free(save);
+		return (NULL);
+	}
 	line = ft_get_line(save);
 	if (!line)
 		free(line);
