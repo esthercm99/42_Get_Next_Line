@@ -6,7 +6,7 @@
 /*   By: ecastane <ecastane@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 10:53:59 by ecastane          #+#    #+#             */
-/*   Updated: 2023/10/06 23:45:33 by ecastane         ###   ########.fr       */
+/*   Updated: 2023/10/07 00:15:45 by ecastane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,57 +14,53 @@
 
 size_t	ft_strlen(const char *s)
 {
-	size_t	return_len;
+	int	return_len;
 
+	if(!s)
+		return (0);
 	return_len = 0;
-	while (s[return_len] != '\0')
+	while (s[return_len])
 		return_len ++;
 	return (return_len);
 }
 
-char	*ft_strchr(char *s, int c)
+char	*ft_strchr(char *string, int searchedChar)
 {
-	int	i;
+	char	*str;
 
-	i = 0;
-	if (!s)
-		return (0);
-	if (c == '\0')
-		return ((char *)&s[ft_strlen(s)]);
-	while (s[i] != '\0')
-	{
-		if (s[i] == (char) c)
-			return ((char *)&s[i]);
-		i++;
-	}
-	return (0);
+	if (!string)
+		return (NULL);
+	str = (char *)string;
+	while (*str != searchedChar && *str != 0)
+		str++;
+	if (*str == searchedChar)
+		return (str);
+	return (NULL);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
 	size_t	i;
 	size_t	c;
 	char	*rtn;
+	int		sizetotal;
 
-	if (!s1)
-	{
-		s1 = malloc(1 * sizeof(char));
-		s1[0] = '\0';
-	}
-	if (!s1 || !s2)
+	i = 0;
+	c = 0;
+	sizetotal = ft_strlen(s1) + ft_strlen(s2);
+	if (!sizetotal)
 		return (NULL);
-	rtn = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	rtn = malloc((sizetotal + 1) * sizeof(char));
 	if (rtn == NULL)
 		return (NULL);
-	i = -1;
-	c = 0;
-	if (s1)
-		while (s1[++i] != '\0')
+	while (s1 && s1[i] != '\0')
+	{
 			rtn[i] = s1[i];
-	while (s2[c] != '\0')
+			i++;
+	}
+	while (s2 && s2[c] != '\0')
 		rtn[i++] = s2[c++];
-	rtn[ft_strlen(s1) + ft_strlen(s2)] = '\0';
-	free(s1);
+	rtn[sizetotal] = '\0';
 	return (rtn);
 }
 

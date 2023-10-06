@@ -6,11 +6,24 @@
 /*   By: ecastane <ecastane@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 10:25:17 by ecastane          #+#    #+#             */
-/*   Updated: 2023/10/06 23:46:25 by ecastane         ###   ########.fr       */
+/*   Updated: 2023/10/07 00:15:52 by ecastane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+char	*ft_free(char *old_buffer, char *append)
+{
+	char	*temp;
+
+	if (!old_buffer && !append)
+		return (NULL);
+	temp = ft_strjoin(old_buffer, append);
+	if (!temp)
+		free(temp);
+	free(old_buffer);
+	return (temp);
+}
 
 char	*ft_read(int fd, char *save)
 {
@@ -34,7 +47,7 @@ char	*ft_read(int fd, char *save)
 		else if (read_rtn == 0)
 			break ;
 		tmp[read_rtn] = '\0';
-		save = ft_strjoin(save, tmp);
+		save = ft_free(save, tmp);
 	}
 	free(tmp);
 	return (save);

@@ -6,7 +6,7 @@
 /*   By: ecastane <ecastane@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 10:26:53 by ecastane          #+#    #+#             */
-/*   Updated: 2023/10/06 23:41:52 by ecastane         ###   ########.fr       */
+/*   Updated: 2023/10/07 00:15:43 by ecastane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_save(char *save);
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);
 char	*ft_strchr(char *s, int c);
-char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strjoin(char const *s1, char const *s2);
 
 char	*ft_strdup(char const *s);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
